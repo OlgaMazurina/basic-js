@@ -1,13 +1,13 @@
 module.exports = function getSeason(date) {
   if (date == null) {
-    return "Unable to determine the time of year!";
+    return 'Unable to determine the time of year!';
   }
   if (!(date instanceof Date)) {
-    throw "Error";
+    throw 'Error';
   }
   let ms = date.getTime();
   if (ms == null) {
-    throw "Error";
+    throw 'Error';
   }
 
   let day = date.getDate();
@@ -20,9 +20,9 @@ module.exports = function getSeason(date) {
       (year % 4 == 0 && month == 1 && day > 29) ||
       (month == 1 && day > 28)
     ) {
-      throw "Error";
+      throw 'Error';
     }
-    return "winter";
+    return 'winter';
   }
 
   if (month > 1 && month <= 4) {
@@ -31,9 +31,9 @@ module.exports = function getSeason(date) {
       (month == 3 && day > 30) ||
       (month == 4 && day > 31)
     ) {
-      throw "Error";
+      throw 'Error';
     }
-    return "spring";
+    return 'spring';
   }
 
   if (month > 4 && month <= 7) {
@@ -42,9 +42,9 @@ module.exports = function getSeason(date) {
       (month == 6 && day > 31) ||
       (month == 7 && day > 31)
     ) {
-      throw "Error";
+      throw 'Error';
     }
-    return "summer";
+    return 'summer';
   }
 
   if (month > 7 && month <= 10) {
@@ -53,15 +53,15 @@ module.exports = function getSeason(date) {
       (month == 9 && day > 31) ||
       (month == 10 && day > 30)
     ) {
-      throw "Error";
+      throw 'Error';
     }
-    return "autumn";
+    return 'autumn';
   }
 
   if (month > 10) {
     if (day > 31) {
-      throw "Error";
+      throw 'Error';
     }
-    return "winter";
+    return 'winter';
   }
 };

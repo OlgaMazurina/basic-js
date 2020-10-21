@@ -1,15 +1,10 @@
-
-
 class VigenereCipheringMachine {
-
-
   constructor(bool) {
     if (bool == true || bool == null) {
-       this.directMachine = true;
+      this.directMachine = true;
     } else {
       this.directMachine = false;
     }
-
   }
   encrypt(message, key) {
     if (message == null || key == null) {
@@ -17,35 +12,47 @@ class VigenereCipheringMachine {
     }
     message = message.toUpperCase();
     key = key.toUpperCase();
+    let messageWithoutSpaces = message.split(" ").join("");
 
-      while (message.length > key.length) {
-        key += key;
-      }
+    while (messageWithoutSpaces.length > key.length) {
+      key += key;
+    }
 
-      if (key.length > message.length) {
-        key = key.substring(0, message.length);
-      }
+    if (key.length > messageWithoutSpaces.length) {
+      key = key.substring(0, messageWithoutSpaces.length);
+    }
 
-      let messageLetterCode;
-      let keyLetterCode;
-      let lettersNumber = 26;
-      let codeLetter;
-      let encryptedMessage = '';
-      for (let i = 0; i < message.length; i++) {
-        messageLetterCode = message.charCodeAt(i);
-        if (messageLetterCode < 65 || messageLetterCode > 90) {
-          encryptedMessage += message[i];
-        } else {
+    let messageLetterCode;
+    let keyLetterCode;
+    let lettersNumber = 26;
+    let codeLetter;
+    let encryptedMessage = "";
+    for (let i = 0; i < messageWithoutSpaces.length; i++) {
+      messageLetterCode = messageWithoutSpaces.charCodeAt(i);
+      if (messageLetterCode < 65 || messageLetterCode > 90) {
+        encryptedMessage += messageWithoutSpaces[i];
+      } else {
         keyLetterCode = key.charCodeAt(i);
         codeLetter = (messageLetterCode + keyLetterCode) % lettersNumber;
         encryptedMessage += String.fromCodePoint(codeLetter + 65);
-        }
       }
-      if (!this.directMachine) {
-        encryptedMessage = encryptedMessage.split('').reverse().join('');
+    }
 
+    let space = 0;
+    let total = "";
+    for (let i = 0; i < message.length; i++) {
+      if (message[i] !== " ") {
+        total += encryptedMessage[i - space];
+      } else {
+        total += " ";
+        space += 1;
       }
-      return encryptedMessage;
+    }
+
+    if (!this.directMachine) {
+      total = total.split("").reverse().join("");
+    }
+    return total;
   }
 
   decrypt(encryptedMessage, key) {
@@ -54,36 +61,47 @@ class VigenereCipheringMachine {
     }
     encryptedMessage = encryptedMessage.toUpperCase();
     key = key.toUpperCase();
+    let messageWithoutSpaces = encryptedMessage.split(" ").join("");
 
-    while (encryptedMessage.length > key.length) {
+    while (messageWithoutSpaces.length > key.length) {
       key += key;
     }
 
-    if (key.length > encryptedMessage.length) {
-      key = key.substring(0, encryptedMessage.length);
+    if (key.length > messageWithoutSpaces.length) {
+      key = key.substring(0, messageWithoutSpaces.length);
     }
     let encryptedMessageLetterCode;
     let keyLetterCode;
     let lettersNumber = 26;
     let messageLetter;
-    let decryptedMessage = '';
-    for (let i = 0; i < encryptedMessage.length; i++) {
-      encryptedMessageLetterCode = encryptedMessage.charCodeAt(i);
+    let decryptedMessage = "";
+    for (let i = 0; i < messageWithoutSpaces.length; i++) {
+      encryptedMessageLetterCode = messageWithoutSpaces.charCodeAt(i);
       if (encryptedMessageLetterCode < 65 || encryptedMessageLetterCode > 90) {
-        decryptedMessage += encryptedMessage[i];
+        decryptedMessage += messageWithoutSpaces[i];
       } else {
         keyLetterCode = key.charCodeAt(i);
-        messageLetter = (encryptedMessageLetterCode + lettersNumber - keyLetterCode) % lettersNumber;
+        messageLetter =
+          (encryptedMessageLetterCode + lettersNumber - keyLetterCode) %
+          lettersNumber;
         decryptedMessage += String.fromCodePoint(messageLetter + 65);
       }
-
     }
+    let space = 0;
+    let total = "";
+    for (let i = 0; i < encryptedMessage.length; i++) {
+      if (encryptedMessage[i] !== " ") {
+        total += decryptedMessage[i - space];
+      } else {
+        total += " ";
+        space += 1;
+      }
+    }
+
     if (!this.directMachine) {
-      decryptedMessage = decryptedMessage.split('').reverse().join('');
-
+      total = total.split("").reverse().join("");
     }
-    return decryptedMessage;
-
+    return total;
   }
 }
 
